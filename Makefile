@@ -2,9 +2,9 @@ GCC = gcc
 CFLAGS = -Wall -Wextra
 CGDB = -g
 
-MAIN = main.c
-PACKAGE_BUILD = arpr_build.c
-PACKAGE_SEND = arpr_send.c
+MAIN = src/main.c
+PACKAGE_BUILD = src/arpr_build.c
+PACKAGE_SEND = src/arpr_send.c
 
 TARGET = arpspoof
 

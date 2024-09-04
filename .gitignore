@@ -48,6 +48,7 @@
 *.mod*
 *.cmd
 .tmp_versions/
+arpspoof
 modules.order
 Module.symvers
 Mkfile.old
