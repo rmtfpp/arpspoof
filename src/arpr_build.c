@@ -31,6 +31,6 @@ void arpr_build(const char *ip_dest, const char *mac_dest, const char *ip_src, c
            &arp_header->arp_tha[3], &arp_header->arp_tha[4], &arp_header->arp_tha[5]);
     inet_pton(AF_INET, ip_dest, arp_header->arp_tpa);
 
-    printf("%s : %s || %s : %s", ip_dest, mac_dest, ip_src, mac_src);
+    printf("%s : %s || %s : %s\n", ip_dest, mac_dest, ip_src, mac_src);
 
 }
