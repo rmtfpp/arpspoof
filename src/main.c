@@ -3,7 +3,7 @@
 #include "arpr_build.h"
 #include "arpr_send.h"
 
-int main(){
-    printf("hello, world!\n");
+int main(int argc, char *argv[]){
+    printf("%s", argv[0]);
     return 0;
 }
