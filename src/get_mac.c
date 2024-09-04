@@ -34,3 +34,23 @@ char *get_mac_address(const char *ip_address){
     perror(error);
     return "";
 }
+
+char* interface_mac_address(const char *interface) { // for local interface mac address (the spoofer one)
+    #define HWADDR_len 6
+    int s, i;
+    struct ifreq ifr;
+    static char MAC_str[19]; // size dell'indirizzo + : finali
+
+    s = socket(AF_INET, SOCK_DGRAM, 0);
+    strcpy(ifr.ifr_name, interface);
+    ioctl(s, SIOCGIFHWADDR, &ifr);
+    for (i = 0; i < HWADDR_len; i++) {
+        sprintf(&MAC_str[i * 3], "%02X:", ((unsigned char*)ifr.ifr_hwaddr.sa_data)[i]);
+    }
+
+    MAC_str[17] = '\0'; 
+
+    close(s);
+
+    return MAC_str;
+}

