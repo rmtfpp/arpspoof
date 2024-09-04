@@ -1,15 +1,5 @@
 #include "arpr_build.h"
 
-void print_packet(const unsigned char *packet, size_t length) {
-    for (size_t i = 0; i < length; i++) {
-        printf("%02x ", packet[i]);
-        if ((i + 1) % 16 == 0) {
-            printf("\n");
-        }
-    }
-    printf("\n");
-}
-
 void arpr_build(const char *ip_dest, const char *mac_dest, const char *ip_src, const char *mac_src, unsigned char *packet) {
     struct ether_header *eth_header = (struct ether_header *) packet;
     struct ether_arp *arp_header = (struct ether_arp *) (packet + sizeof(struct ether_header));
@@ -23,9 +13,6 @@ void arpr_build(const char *ip_dest, const char *mac_dest, const char *ip_src, c
            &eth_header->ether_shost[0], &eth_header->ether_shost[1], &eth_header->ether_shost[2],
            &eth_header->ether_shost[3], &eth_header->ether_shost[4], &eth_header->ether_shost[5]);
     eth_header->ether_type = htons(ETHERTYPE_ARP);
-
-    printf("After setting Ethernet header:\n");
-    print_packet(packet, sizeof(struct ether_header));
 
 
     //arp
@@ -44,6 +31,6 @@ void arpr_build(const char *ip_dest, const char *mac_dest, const char *ip_src, c
            &arp_header->arp_tha[3], &arp_header->arp_tha[4], &arp_header->arp_tha[5]);
     inet_pton(AF_INET, ip_dest, arp_header->arp_tpa);
 
-    printf("After setting ARP header:\n");
-    print_packet(packet, sizeof(struct ether_header) + sizeof(struct ether_arp));
+    printf("%s : %s || %s : %s", ip_dest, mac_dest, ip_src, mac_src);
+
 }

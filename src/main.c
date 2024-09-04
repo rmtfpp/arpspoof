@@ -33,6 +33,12 @@ int main(int argc, char *argv[]) {
 
     signal(SIGINT, sigint);
 
+    if(argc != 4){
+        perror("usage: ./arpspoof <dest_ip> <src_ip> <interface>\n");
+        exit(EXIT_FAILURE);
+    }
+
+
     dest_ip = argv[1];
     dest_mac = get_mac_address(dest_ip);
 
@@ -42,6 +48,10 @@ int main(int argc, char *argv[]) {
     interface = argv[3];
 
     char *spoof_mac = interface_mac_address(interface);
+
+    if (dest_ip == NULL && dest_mac == NULL && src_ip == NULL && src_mac == NULL && interface == NULL && spoof_mac == NULL){
+        perror("error in variable initialization\n");
+    }
 
     while (running) {
         unsigned char packet[sizeof(struct ether_header) + sizeof(struct ether_arp)];
