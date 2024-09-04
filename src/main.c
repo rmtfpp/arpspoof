@@ -5,6 +5,7 @@
 
 #include "arpr_build.h"
 #include "arpr_send.h"
+#include "get_mac.h"
 
 int running = 1;
 
@@ -19,7 +20,8 @@ int main(int argc, char *argv[]){
     signal(SIGINT, sigint);
 
     while(running){
-        printf("%s | running...\n", argv[0]);
+        printf("%s | running...\n", argv[1]);
+        char *mac = get_mac_address(argv[1]);
         sleep(1);
     }
 
