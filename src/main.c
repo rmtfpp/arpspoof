@@ -15,9 +15,11 @@ char *src_ip;
 char *src_mac;
 char *interface;
 
-void sigint(int sig){
+void sigint(int sig) {
+    (void)sig; 
+
     printf("\nrestoring initial ARP tables...\n");
-    for(int i = 0; i < 5; i++){
+    for (int i = 0; i < 5; i++) {
         unsigned char packet[sizeof(struct ether_header) + sizeof(struct ether_arp)];
         arpr_build(dest_ip, dest_mac, src_ip, src_mac, packet);
         arpr_send(packet, interface);
@@ -26,7 +28,8 @@ void sigint(int sig){
     running = 0;
 }
 
-int main(int argc, char *argv[]){
+int main(int argc, char *argv[]) {
+    (void)argc; 
 
     signal(SIGINT, sigint);
 
@@ -40,7 +43,7 @@ int main(int argc, char *argv[]){
 
     char *spoof_mac = interface_mac_address(interface);
 
-    while(running){
+    while (running) {
         unsigned char packet[sizeof(struct ether_header) + sizeof(struct ether_arp)];
         arpr_build(dest_ip, dest_mac, src_ip, spoof_mac, packet);
         arpr_send(packet, interface);

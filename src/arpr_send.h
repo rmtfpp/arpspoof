@@ -8,6 +8,7 @@
 #include <net/if.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
-#include <net/packet.h>
+#include <linux/if_packet.h>
+#include <net/ethernet.h>
 
-void send_arp_packet(unsigned char *packet, const char *interface);
+void arpr_send(unsigned char *packet, const char *interface);

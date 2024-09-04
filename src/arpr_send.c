@@ -1,6 +1,6 @@
 #include "arpr_send.h"
 
-void send_arp_packet(unsigned char *packet, const char *interface) {
+void arpr_send(unsigned char *packet, const char *interface) {
     int sockfd;
     struct ifreq if_idx;
     struct sockaddr_ll socket_address;
